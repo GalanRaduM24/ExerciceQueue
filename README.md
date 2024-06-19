@@ -12,3 +12,16 @@ This project simulates a restaurant order management system using queues to hand
 - main.cpp: The main program file that contains the implementation of the order management system.
 - Queue.h: Header file defining the queue data structure used in the program.
 - test.txt: Input file containing the closing time of the restaurant and the list of orders.
+
+## Compilation and Execution
+Compile the program:
+
+`g++ -o restaurant main.cpp`
+
+Run the program:
+
+`./restaurant`
+
+## Notes
+Ensure that Queue.h is present in the same directory as main.cpp.
+The input file test.txt should be formatted as in the provided example
