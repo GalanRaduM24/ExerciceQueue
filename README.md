@@ -15,13 +15,13 @@ This project simulates a restaurant order management system using queues to hand
 
 ## Compilation and Execution
 Compile the program:
-
-`g++ -o restaurant main.cpp`
-
+```
+g++ -o restaurant main.cpp
+```
 Run the program:
-
-`./restaurant`
-
+```
+./restaurant
+```
 ## Notes
 Ensure that Queue.h is present in the same directory as main.cpp.
 The input file test.txt should be formatted as in the provided example
