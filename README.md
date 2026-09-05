@@ -9,26 +9,15 @@ A discrete-event simulation implemented in C++ modeling a restaurant kitchen ord
 
 ---
 
-## Processing Flow
+## Simulation Pipeline
 
-```text
-Incoming Orders (test.txt)
-  │
-  ├──► [ Arrival Timestamps Queue ]  ──► (peek / dequeue) ──┐
-  │                                                         │
-  └──► [ Prep Durations Queue ]      ──► (peek / dequeue) ──┴─► [ Kitchen Scheduler ]
-                                                                      │
-                                                                      ▼
-                                                              - Track current clock
-                                                              - Detect idle gaps
-                                                              - Enforce closing cutoff
-                                                                      │
-                                                                      ▼
-                                                           [ Performance Report ]
-                                                           • Orders Prepared
-                                                           • Orders Lost
-                                                           • Actual Closing Time
-```
+| Stage | Component | Operation | Description |
+|:---|:---|:---|:---|
+| **1. Ingestion** | File Stream (`test.txt`) | Line Parsing | Reads closing time and chronological order stream |
+| **2. Buffering** | `timeQueue` (`Queue<int>`) | `enqueue()` / `dequeue()` | Buffers customer arrival timestamps |
+| **3. Queuing** | `orderQueue` (`Queue<int>`) | `enqueue()` / `dequeue()` | Buffers cooking / preparation durations |
+| **4. Scheduling** | Event Dispatcher | Clock Tracking | Advances kitchen clock, handles idle gaps, and completes orders |
+| **5. Cutoff** | Reporting Engine | Threshold Check | Discards late arrivals past closing time and outputs summary metrics |
 
 ---
 
