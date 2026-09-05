@@ -1,27 +1,99 @@
-# Restaurant Order Management System
+# Restaurant Order Scheduling Simulation: FIFO Queue Modeling
 
-## Overview
-This project simulates a restaurant order management system using queues to handle customer orders. Each order consists of an arrival time and a preparation duration. The orders are processed in the order of their arrival, and the program ensures that no orders are started after the restaurant's closing time.
+[![C++](https://img.shields.io/badge/C%2B%2B-11%20%7C%2014%20%7C%2017-00599C?logo=c%2B%2B&logoColor=white)](https://isocpp.org/)
+[![Data Structures](https://img.shields.io/badge/Data%20Structure-Custom%20Queue-blue.svg)]()
+[![Algorithms](https://img.shields.io/badge/Algorithm-Event--Driven%20Scheduling-orange.svg)]()
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-## Features
-- Queue Implementation: Manages orders using two queues for arrival times and preparation durations.
-- Order Processing: Processes orders based on their arrival times and calculates the actual completion time.
-- Output Information: Displays the number of served orders, unfulfilled orders, and the actual closing time of the restaurant.
+A discrete-event simulation implemented in C++ modeling a restaurant kitchen order pipeline using custom templated **FIFO Queue** data structures. The system tracks dynamic customer arrivals, kitchen preparation times, idle intervals, order fulfillment latency, and closing cutoff metrics.
 
-## Files
-- main.cpp: The main program file that contains the implementation of the order management system.
-- Queue.h: Header file defining the queue data structure used in the program.
-- test.txt: Input file containing the closing time of the restaurant and the list of orders.
+---
 
-## Compilation and Execution
-Compile the program:
+## Processing Flow
+
+```text
+Incoming Orders (test.txt)
+  │
+  ├──► [ Arrival Timestamps Queue ]  ──► (peek / dequeue) ──┐
+  │                                                         │
+  └──► [ Prep Durations Queue ]      ──► (peek / dequeue) ──┴─► [ Kitchen Scheduler ]
+                                                                      │
+                                                                      ▼
+                                                              - Track current clock
+                                                              - Detect idle gaps
+                                                              - Enforce closing cutoff
+                                                                      │
+                                                                      ▼
+                                                           [ Performance Report ]
+                                                           • Orders Prepared
+                                                           • Orders Lost
+                                                           • Actual Closing Time
 ```
-g++ -o restaurant main.cpp
+
+---
+
+## Key Features
+
+- **Templated Queue Implementation**: Custom `Queue<T>` data structure providing standard FIFO primitives (`enqueue`, `dequeue`, `peek`, `isEmpty`).
+- **Synchronized Multi-Queue Scheduling**: Processes arrival times and cooking durations in lockstep.
+- **Idle Interval Detection**: Identifies and logs downtime between consecutive orders.
+- **Operational Metric Reporting**:
+  - Total successfully prepared orders
+  - Dropped / lost orders arriving past kitchen cutoff
+  - Effective closing time accounting for in-flight orders
+
+---
+
+## Project Structure
+
+```text
+├── Queue.h                # Templated generic Queue<T> class implementation
+├── Main.cpp               # Event scheduler simulation, execution loop, and reporting
+├── test.txt               # Input dataset (closing time, count, order timelines)
+└── README.md              # Project documentation
 ```
-Run the program:
+
+---
+
+## Input / Output Format
+
+### Input Format (`test.txt`)
+- Line 1: Closing time `T` and total order count `N`
+- Subsequent Lines: Order pairs containing `(arrival_time, preparation_duration)`
+
+```text
+20 4
+0 5
+3 7
+15 4
+22 3
 ```
-./restaurant
-```
-## Notes
-Ensure that Queue.h is present in the same directory as main.cpp.
-The input file test.txt should be formatted as in the provided example
+
+---
+
+## Getting Started
+
+### Prerequisites
+- Standard C++ compiler (`g++`, `clang++`, or MSVC).
+
+### Compilation & Execution
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/GalanRaduM24/ExerciceQueue.git
+   cd ExerciceQueue
+   ```
+
+2. **Compile the source**:
+   ```bash
+   g++ -O2 -std=c++11 Main.cpp -o restaurant_sim
+   ```
+
+3. **Run the simulation**:
+   ```bash
+   # On Windows
+   .\restaurant_sim.exe
+
+   # On Linux / macOS
+   ./restaurant_sim
+   ```
